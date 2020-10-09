@@ -2,20 +2,24 @@ package leetcode
 
 func largestRectangleArea(heights []int) int {
 	largest := 0
+	heights = append(heights, 0)
+	stack := []int{}
 	for i := 0; i < len(heights); i++ {
-		height := -1
-		for j := i; j >= 0; j-- {
-			if height == -1 || heights[j] < height {
-				height = heights[j]
+		for len(stack) > 0 && heights[stack[len(stack)-1]] >= heights[i] {
+			h := heights[stack[len(stack)-1]]
+			stack = stack[:len(stack)-1]
+			left := 0
+			if len(stack) == 0 {
+				left = -1
+			} else {
+				left = stack[len(stack)-1]
 			}
-			temp := (i - j + 1) * height
-			if temp > largest {
-				largest = temp
-			}
-			if (i+1)*height <= largest {
-				break
+			area := (i - left - 1) * h
+			if area > largest {
+				largest = area
 			}
 		}
+		stack = append(stack, i)
 	}
 	return largest
 }
