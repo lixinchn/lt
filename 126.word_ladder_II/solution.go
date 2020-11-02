@@ -12,11 +12,11 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 	current[beginWord] = struct{}{}
 	_, ok := current[endWord]
 	for len(current) != 0 && !ok {
-		for word, _ := range current {
+		for word := range current {
 			delete(dict, word)
 		}
 		next := make(map[string]struct{})
-		for word, _ := range current {
+		for word := range current {
 			for i := range word {
 				for _, c := range "abcdefghijklmnopqrstuvwxyz" {
 					candidate := word[:i] + string(c) + word[i+1:]
